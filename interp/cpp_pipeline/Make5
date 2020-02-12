@@ -1,0 +1,46 @@
+CFLAGS = -std=c++11 -I/usr/local/opt/lapack/include -L/usr/local/opt/lapack/lib -lblas -llapacke
+PKG = -I /usr/local/include/opencv4/opencv -I /usr/local/include/opencv4 \
+-L /usr/local/lib  -lopencv_highgui -lopencv_ml -lopencv_objdetect -lopencv_photo -lopencv_stitching -lopencv_video \
+-lopencv_calib3d -lopencv_features2d -lopencv_flann -lopencv_videoio -lopencv_imgcodecs -lopencv_imgproc -lopencv_core
+ifdef DEBUG
+	DB = -g
+else
+	DB = -O3
+endif
+ifdef PROFILE
+	DB += -lprofiler
+endif
+ifdef USE_OMP
+	OMPFLAGS= -fopenmp
+else
+	OMPFLAGS=
+endif
+
+platform =$(shell uname -s)
+
+ifeq ($(platform),Darwin)
+CPP = clang++
+all: superres.ex
+
+superres.ex: main5.cpp GP5.o weights5.o
+	$(CPP) $(CFLAGS) $(PKG) $(OMPFLAGS) $(DB) -o superres.ex main5.cpp GP5.o weights5.o
+
+weights5.o: weights5.cpp weights5.h
+	$(CPP) $(CFLAGS) $(OMPFLAGS) $(DB) -c weights5.cpp
+GP5.o: GP5.cpp GP5.h weights5.h
+	$(CPP) $(CFLAGS) $(OMPFLAGS) $(DB) -c GP5.cpp
+
+else ifeq ($(platform),Linux)
+CPP = g++
+all: superres.ex
+
+superres.ex: main5.cpp GP5.o weights5.o
+	$(CPP) -o superres.ex main5.cpp GP5.o weights5.o $(CFLAGS) $(PKG) $(OMPFLAGS) $(DB) 
+
+weights5.o: weights5.cpp weights5.h
+	$(CPP) -c weights5.cpp $(CFLAGS) $(OMPFLAGS) $(DB) 
+GP5.o: GP5.cpp GP5.h weights5.h
+	$(CPP)  -c GP5.cpp $(CFLAGS) $(OMPFLAGS) $(DB)
+endif 
+clean:
+	rm -f superres.ex GP5.o weights5.o 

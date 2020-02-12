@@ -1,0 +1,37 @@
+CFLAGS = -std=c++11 -O3 -I/usr/local/opt/lapack/include -L/usr/local/opt/lapack/lib -lblas -llapacke
+ifdef USE_OMP
+	OMPFLAGS= -fopenmp
+else
+	OMPFLAGS=
+endif
+
+platform =$(shell uname -s)
+ifeq ($(platform),Darwin)
+ifdef USE_OMP
+	OMPINCLUDE=-I/usr/local/opt/libomp/include -L/usr/local/opt/libomp/lib
+else
+	OMPINCLUDE=
+endif
+CPP = clang++
+interp.dylib: interp.cpp GP5.o weights5.o
+	$(CPP) $(CFLAGS) $(OMPINCLUDE) $(OMPFLAGS)  -dynamiclib  -o interp.dylib interp.cpp GP5.o weights5.o
+
+weights5.o: weights5.cpp weights5.h
+	$(CPP) $(CFLAGS) $(OMPINCLUDE) $(OMPFLAGS)  -c weights5.cpp
+GP5.o: GP5.cpp GP5.h weights5.h
+	$(CPP) $(CFLAGS) $(OMPINCLUDE) $(OMPFLAGS)  -c GP5.cpp
+
+clean:
+	rm GP5.o weights5.o interp.dylib
+
+else ifeq ($(platform),Linux)
+CPP = g++
+interp.so: interp.cpp GP5.o weights5.o
+	$(CPP) -fPIC -shared -o interp.so interp.cpp GP5.o weights5.o $(CFLAGS) $(OMPFLAGS) 
+weights5.o: weights5.cpp weights5.h
+	$(CPP) -fPIC -c weights.cpp $(CFLAGS) $(OMPFLAGS) -o weights5.o
+GP5.o: GP5.cpp GP5.h weights5.h
+	$(CPP) -fPIC -c GP.cpp $(CFLAGS) $(OMPFLAGS)
+clean:
+	rm GP5.o weights5.o interp.so
+endif
