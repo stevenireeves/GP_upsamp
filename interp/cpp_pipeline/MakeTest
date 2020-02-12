@@ -22,25 +22,25 @@ ifeq ($(platform),Darwin)
 CPP = clang++
 all: superres.ex
 
-superres.ex: main5.cpp GP5.o weights5.o
-	$(CPP) $(CFLAGS) $(PKG) $(OMPFLAGS) $(DB) -o superres.ex main5.cpp GP5.o weights5.o
+superres.ex: main.cpp GP.o weights.o
+	$(CPP) $(CFLAGS) $(PKG) $(OMPFLAGS) $(DB) -o superres.ex main.cpp GP.o weights.o
 
-weights5.o: weights5.cpp weights5.h
-	$(CPP) $(CFLAGS) $(OMPFLAGS) $(DB) -c weights5.cpp
-GP5.o: GP5.cpp GP5.h weights5.h
-	$(CPP) $(CFLAGS) $(OMPFLAGS) $(DB) -c GP5.cpp
+weights.o: weights.cpp weights.h
+	$(CPP) $(CFLAGS) $(OMPFLAGS) $(DB) -c weights.cpp
+GP.o: GP.cpp GP.h weights.h
+	$(CPP) $(CFLAGS) $(OMPFLAGS) $(DB) -c GP.cpp
 
 else ifeq ($(platform),Linux)
 CPP = g++
 all: superres.ex
 
-superres.ex: main5.cpp GP5.o weights5.o
-	$(CPP) -o superres.ex main5.cpp GP5.o weights5.o $(CFLAGS) $(PKG) $(OMPFLAGS) $(DB) 
+superres.ex: main.cpp GP.o weights.o
+	$(CPP) -o superres.ex main.cpp GP.o weights.o $(CFLAGS) $(PKG) $(OMPFLAGS) $(DB) 
 
-weights5.o: weights5.cpp weights5.h
-	$(CPP) -c weights5.cpp $(CFLAGS) $(OMPFLAGS) $(DB) 
-GP5.o: GP5.cpp GP5.h weights5.h
-	$(CPP)  -c GP5.cpp $(CFLAGS) $(OMPFLAGS) $(DB)
+weights.o: weights.cpp weights.h
+	$(CPP) -c weights.cpp $(CFLAGS) $(OMPFLAGS) $(DB) 
+GP.o: GP.cpp GP.h weights.h
+	$(CPP)  -c GP.cpp $(CFLAGS) $(OMPFLAGS) $(DB)
 endif 
 clean:
-	rm -f superres.ex GP5.o weights5.o 
+	rm -f superres.ex GP.o weights.o 
