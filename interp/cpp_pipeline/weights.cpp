@@ -1,7 +1,6 @@
 #include "weights.h"
 #include "kernels.h"
 #include <iostream>
-#include <iomanip> 
 #include <lapacke.h> 
 
 
@@ -26,7 +25,9 @@ weights::weights (const int Ratio[], const float del[])
     for(int i = 0; i < 25; i++){
         sum += ones[i]; 
     }
-    for(int i = 0; i < 25; i++) C[i] = float(ones[i]/sum); 
+    for(int i = 0; i < 25; i++){
+         C[i] = float(ones[i]/sum);
+    } 
     //Get interpolation weights.
     Getks(K, kis);
 }
