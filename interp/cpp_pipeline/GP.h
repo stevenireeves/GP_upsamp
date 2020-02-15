@@ -41,12 +41,12 @@ public:
 		       	        	  const int j, const int i)
 	{
 		std::array<float, 25> result;
-        int idj[5] = {(j-2)*insize[0], (j-1)*insize[0], j*insize[0], (j+1)*insize[0], (j+2)*insize[0]}; 
-        int idi[5] = { i-2, i-1, i, i+1, i+2 }; 
+        int idi[5] = {(i-2)*insize[1], (i-1)*insize[1], i*insize[1], (i+1)*insize[1], (i+2)*insize[1]}; 
+        int idj[5] = { j-2, j-1, j, j+1, j+2 }; 
 
         for(int i1 = 0; i1 < 5; i1++){
-            for(int j1 = 0; j1 < 5; j1++){ 
-                result[i1*5 + j1] = float(img_in[(idj[j1] + idi[i1])]);  
+            for(int j1 = 0; j1 < 5; j1++){
+                result[i1*5 + j1] = float(img_in[idi[i1] + idj[j1]]);  
             }
         }
 		return result; 	
@@ -76,7 +76,7 @@ public:
         }
         for(int i1 = 0; i1 < 5; i1++){
             for(int j1 = 0; j1 < 5; j1++){ 
-                result[i1*5 + j1] = float(img_in[(idj[j1]*insize[0] + idi[i1])]);  
+                result[i1*5 + j1] = float(img_in[(idi[i1]*insize[1] + idj[j1])]);  
             }
         }
 		return result; 	

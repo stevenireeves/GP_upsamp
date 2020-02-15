@@ -6,21 +6,20 @@
 /* GP Interpolation with Single Channel */ 
 void GP::single_channel_interp(const uint8_t* img_in, 
                                float* img_out, const int ry, const int rx){
-	const int outj = insize[0]*rx; 
+	const int outi = insize[1]*rx; 
 	/*------------------- Body -------------------------- */
 #pragma omp parallel for	
-	for( int j = 2; j < insize[1]-2; j++){
-		std::array<float, 25> cen = {};
-		for(int i = 2; i < insize[0]-2; i++){
-		    cen = GP::load(img_in, j, i);
+	for(int i = 2; i < insize[0]-2; i++){
+		for( int j = 2; j < insize[1]-2; j++){
+		    auto cen = GP::load(img_in, j, i);
             float mle = GP::dot(C, cen); 
-            for(int idy = 0; idy < ry; idy++){
-                int jj = j*ry + idy;
-                int ind =jj*outj; ;	
-                for(int idx = 0; idx < rx; idx++){
-                    int ii = i*rx + idx; 
+            for(int idx = 0; idx < rx; idx++){
+                int ii = i*rx + idx;
+                int ind =ii*outi; ;	
+                for(int idy = 0; idy < ry; idy++){
+                    int jj = j*ry + idy; 
                     int idk = idx*ry + idy;
-                    img_out[ind + ii] = mle + GP::dot(weight[idk], cen, mle); 
+                    img_out[ind + jj] = mle + GP::dot(weight[idk], cen, mle); 
                 }
             }
        	}
@@ -32,13 +31,13 @@ void GP::single_channel_interp(const uint8_t* img_in,
 	    for(int j = 0; j < 2; j++){
             auto cen = GP::load_borders(img_in, j, i); 
             float mle = GP::dot(C, cen); 
-            for(int idy = 0; idy < ry; idy++){
-                int jj = j*ry + idy; 
-                int ind = jj*outj;
-                for(int idx = 0; idx < rx; idx++){
-                    int ii = idx + i*rx; 
+            for(int idx = 0; idx < rx; idx++){
+                int ii = i*rx + idx;
+                int ind =ii*outi; ;	
+                for(int idy = 0; idy < ry; idy++){
+                    int jj = j*ry + idy; 
                     int idk = idx*ry + idy;
-                    img_out[ind + ii] =  mle + GP::dot(weight[idk], cen, mle);
+                    img_out[ind + jj] = mle + GP::dot(weight[idk], cen, mle); 
                 }
             }
         }
@@ -49,13 +48,13 @@ void GP::single_channel_interp(const uint8_t* img_in,
     	for(int j = (insize[1]-2); j < insize[1]; j++){ 	
             auto cen = GP::load_borders(img_in, j, i); 
             float mle = GP::dot(C, cen); 
-            for(int idy = 0; idy < ry; idy++){
-                int jj = idy + j*ry; 	
-                int ind = jj*outj;
-                for(int idx = 0; idx < rx; idx++){
-                    int ii = idx + i*rx;
+            for(int idx = 0; idx < rx; idx++){
+                int ii = i*rx + idx;
+                int ind =ii*outi; ;	
+                for(int idy = 0; idy < ry; idy++){
+                    int jj = j*ry + idy; 
                     int idk = idx*ry + idy;
-                    img_out[ind + ii] = mle + GP::dot(weight[idk], cen, mle); 
+                    img_out[ind + jj] = mle + GP::dot(weight[idk], cen, mle); 
                 }
             }
         }
@@ -66,13 +65,13 @@ void GP::single_channel_interp(const uint8_t* img_in,
     	for(int i = 0; i < 2; i++){ 
             auto cen = GP::load_borders(img_in, j, i); 
             float mle = GP::dot(C, cen); 
-            for(int idy = 0; idy < ry; idy++){
-                int jj = idy + j*ry; 
-                int ind =jj*outj;
-                for(int idx = 0; idx < rx; idx++){
-                    int ii = idx + i*rx; 
+            for(int idx = 0; idx < rx; idx++){
+                int ii = i*rx + idx;
+                int ind =ii*outi; ;	
+                for(int idy = 0; idy < ry; idy++){
+                    int jj = j*ry + idy; 
                     int idk = idx*ry + idy;
-                    img_out[ind + ii] = mle + GP::dot(weight[idk], cen, mle); 
+                    img_out[ind + jj] = mle + GP::dot(weight[idk], cen, mle); 
                 }
             }
         }
@@ -83,13 +82,13 @@ void GP::single_channel_interp(const uint8_t* img_in,
     	for(int i = (insize[0]-2); i < insize[0]; i++){ 
             auto cen = GP::load_borders(img_in, j, i); 
             float mle = GP::dot(C, cen); 
-            for(int idy = 0; idy < ry; idy++){
-                int jj = idy + j*ry; 
-                int ind = jj*outj;
-                for(int idx = 0; idx < rx; idx++){
-                    int ii = idx + i*rx; 
+            for(int idx = 0; idx < rx; idx++){
+                int ii = i*rx + idx;
+                int ind =ii*outi; ;	
+                for(int idy = 0; idy < ry; idy++){
+                    int jj = j*ry + idy; 
                     int idk = idx*ry + idy;
-                    img_out[ind + ii] = mle + GP::dot(weight[idk], cen, mle); 
+                    img_out[ind + jj] = mle + GP::dot(weight[idk], cen, mle); 
                 }
             }
         }
