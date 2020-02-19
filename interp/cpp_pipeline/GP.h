@@ -22,19 +22,16 @@ public:
 
 	/* Member functions */ 
 	inline
-	float dot(const std::array<float, 25> &vec1, const std::array<float, 25> &vec2, 
-                                                 const float factor){
-        float result = 0; 
-        for(int i = 0; i< 25; i++) result += vec1[i]*(vec2[i]-factor); 
-		return result; 
-	}
-
-	inline
 	float dot(const std::array<float, 25> &vec1, const std::array<float, 25> &vec2){
         float result = 0; 
         for(int i = 0; i< 25; i++) result += vec1[i]*vec2[i]; 
 		return result; 
 	}
+    inline
+    void sub(std::array<float, 25> &samp, const float mle)
+    {
+        for(int i = 0; i < 25; i++) samp[i] -= mle; 
+    }
 
 	inline
 	std::array<float, 25> load(const uint8_t* img_in, 
