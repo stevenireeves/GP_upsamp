@@ -8,3 +8,8 @@ Currently only 4x and 2x upsampling (per dim) is supported for grayscale images 
 
 The make system builds on Linux and MacOS, and requires "Lapacke", the C++ extension of the Linear Algebra Package LAPACK.
 You may need to alter the Makefile so that the linker will find this package. 
+
+Additionally, there is the option to use multi-threading in this application. To generate multi-threaded capable 
+library, type: 
+
+make USE_OMP=T -j2
