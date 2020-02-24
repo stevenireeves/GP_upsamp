@@ -11,6 +11,7 @@
 weights::weights (const int Ratio[], const float ks_in[], const float C_in[])
 {
     int factor = Ratio[0]*Ratio[1]; 
+    ks.resize(factor, std::array<float, 25>() );
     for(int i = 0; i < 25; i++){
         C[i] = C_in[i]; 
         for(int j = 0; j < factor; j++){
