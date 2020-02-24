@@ -13,3 +13,8 @@ Additionally, there is the option to use multi-threading in this application. To
 library, type: 
 
 make USE_OMP=T -j2
+
+
+If the application needed requires minimal C++ library dependence, build the C++ library with 
+make WITH_PY=T USE_OMP=T -j2
+and use the functions in py_pipeline to generate the GP model weights. The script gptest.py contains this usage.  

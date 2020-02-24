@@ -1,9 +1,17 @@
 import ctypes
+import os 
+
 import numpy as np 
 import numpy.ctypeslib as npct
 
 def GPupsamp(img_in, ratio, weights, mle):
-    libinterp = ctypes.cdll.LoadLibrary('/Users/stevenreeves/GP_gupsamp/interp/cpp_pipeline/interp.dylib')
+    try:
+        SO_PATH = os.environ['SO_PATH']
+        libinterp = ctypes.cdll.LoadLibrary(SO_PATH)
+    except Exception:
+        print("Path to C++ function not set! Please use export SO_PATH=<path/to/C++lib>")
+        print("Exiting")
+        quit()
     interpolate = libinterp.interpolate
     interpolate.restype = None
     interpolate.argtypes = [npct.ndpointer(ctypes.c_ubyte), npct.ndpointer(ctypes.c_float),
