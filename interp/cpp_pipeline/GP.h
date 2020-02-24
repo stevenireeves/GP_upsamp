@@ -16,7 +16,7 @@ public:
 
 	GP(const weights wgts, const int size[3]){
 		weight = wgts.ks;
-    	C = wgts.C; 
+        C = wgts.C; 
 		insize[0] = size[0], insize[1] = size[1], insize[2] = size[2]; 
 	}
 

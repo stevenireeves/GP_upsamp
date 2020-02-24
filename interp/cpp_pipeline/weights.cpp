@@ -8,10 +8,11 @@
 
 //Constructor 
 #ifdef WITH_PY
-weights::weights (const int Ratio[], const float ks_in[])
+weights::weights (const int Ratio[], const float ks_in[], const float C_in[])
 {
     int factor = Ratio[0]*Ratio[1]; 
     for(int i = 0; i < 25; i++){
+        C[i] = C_in[i]; 
         for(int j = 0; j < factor; j++){
             ks[j][i] = ks_in[i*factor + j]; //Need to check ordering
         }

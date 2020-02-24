@@ -10,13 +10,14 @@ class weights
 {
     public: 
     weights(const int ratio[], const float del[]);
+    weights(const int ratio[], const float ks_in[], const float C_in[]); 
     ~weights(){};      
     
     // Member data
     int r[2]; 
     float dx[2];
     std::array<float, 25> C = {};   
-        //
+    //
     //  Weights to be applied for interpolation
     //
     std::vector<std::array<float, 25> > ks; 
