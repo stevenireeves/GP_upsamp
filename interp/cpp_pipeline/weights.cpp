@@ -1,10 +1,24 @@
 #include "weights.h"
 #include "kernels.h"
 #include <iostream>
-#include <lapacke.h> 
+#ifndef WITH_PY
+    #include <lapacke.h> 
+#endif
 
 
 //Constructor 
+#ifdef WITH_PY
+weights::weights (const int Ratio[], const float ks_in[])
+{
+    int factor = Ratio[0]*Ratio[1]; 
+    for(int i = 0; i < 25; i++){
+        for(int j = 0; j < factor; j++){
+            ks[j][i] = ks_in[i*factor + j]; //Need to check ordering
+        }
+    }
+}
+
+#else
 weights::weights (const int Ratio[], const float del[])
 {
     dx[0] = del[0], dx[1] = del[1]; 
@@ -31,6 +45,7 @@ weights::weights (const int Ratio[], const float del[])
     //Get interpolation weights.
     Getks(K, kis);
 }
+
 template<int n> 
 void
 weights::cholesky(std::array<double, n> &b, std::array<std::array<double, n>, n> K)
@@ -132,4 +147,4 @@ weights::Getks(const std::array<std::array<double, 25>, 25> K1, std::vector<std:
        for(int j =0; j < 25; j++) ks[i][j] = float(kt[i][j]);  
     } 
 }
-
+#endif

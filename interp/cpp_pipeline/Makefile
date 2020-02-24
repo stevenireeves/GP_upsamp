@@ -1,4 +1,9 @@
-CFLAGS = -std=c++11 -O3 -I/usr/local/opt/lapack/include -L/usr/local/opt/lapack/lib -lblas -llapacke
+CFLAGS = -std=c++11 -O3
+ifdef WITH_PY
+	CFLAGS += -DWITH_PY
+else
+	CFLAGS +=  -I/usr/local/opt/lapack/include -L/usr/local/opt/lapack/lib -lblas -llapacke
+endif
 ifdef USE_OMP
 	OMPFLAGS= -fopenmp
 else
