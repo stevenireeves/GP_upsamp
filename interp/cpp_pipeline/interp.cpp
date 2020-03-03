@@ -5,6 +5,10 @@
 
 #ifdef WITH_PY
 void driver(const uint8_t img_in[], float img_out[], const int upsample_ratio[], const int in_size[], const float ks[], const float c_in[]){
+    if(!img_in){
+        std::cout<<"WARNING Input image is NULL"<<std::endl;
+        return;
+    }
     const float del[2] = {1.f/float(in_size[0]), 1.f/float(in_size[1])};
     weights wgts(upsample_ratio, ks, c_in); 
     const int size[3] = {in_size[0], in_size[1], 1}; 
