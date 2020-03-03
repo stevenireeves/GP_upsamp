@@ -1,5 +1,5 @@
-# GP_upsamp
-Gaussian Process Upsampling method for Grayscale Images. 
+# Gaussian Process Upsampling method for Grayscale Document Images.
+
 This is the implementation for the method outlined in the paper "A Gaussian Process Based Alogirthm 
 to Upsample Document Images for Optical Character Recognition" by Steven I Reeves et al. 
 
