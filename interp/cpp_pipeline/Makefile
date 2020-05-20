@@ -10,6 +10,10 @@ else
 	OMPFLAGS=
 endif
 
+ifdef STACK_CHK
+    CFLAGS += -fstack-usage
+endif 
+
 platform =$(shell uname -s)
 ifeq ($(platform),Darwin)
 ifdef USE_OMP
