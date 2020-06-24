@@ -1,7 +1,7 @@
 # Gaussian Process Upsampling method for Grayscale Document Images.
 
 This is the implementation for the method outlined in the paper "A Gaussian Process Based Alogirthm 
-to Upsample Document Images for Optical Character Recognition" by Steven I Reeves et al. 
+to Upsample Document Images for Optical Character Recognition" by Steven I Reeves et al. https://arxiv.org/pdf/2005.03780v1.pdf
 
 What is included is a C++ library written to be a shared object for Python or called directly from C or C++.
 Currently only 4x and 2x upsampling (per dim) is supported for grayscale images or single channel arrays.
